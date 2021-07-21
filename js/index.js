@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         if (player1 != "") {
             // declare connection
-            var socket = io.connect('http://localhost:4000');
+            var socket = io.connect('https://ades-ca3-backend.herokuapp.com');
             var socketConnected = false;
 
             // connect to web socket
