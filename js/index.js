@@ -26,8 +26,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             socket.emit("createSess", playerName);
 
             socket.on("session-created", function (data) {
-                var res = data;
-                console.log("Player 1 id: " + res.id);
+                var p1_id = data.id;
+                var p1_name = data.name;
+                console.log("Player 1 id: " + p1_id);
+                console.log("Player 1 name: " + p1_name);
 
                 document.getElementById("lobby").innerHTML =
 
