@@ -5,6 +5,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var createSessionButton = document.getElementById("createSession");
     var joinSessionButton = document.getElementById("joinSession");
 
+    // declare connection
+    this.socket = io.connect('https://ades-ca3-backend.herokuapp.com');
+    var socketConnected = false;
+
     createSessionButton.addEventListener('click', function () {
 
         // retrieve and save username
@@ -12,10 +16,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         var playerName = usernameInput.value;
 
         if (playerName != "") {
-            // declare connection
-            var socket = io.connect('https://ades-ca3-backend.herokuapp.com');
-            var socketConnected = false;
-            
             // connect to web socket
             socket.on('connect', function () {
                 socketConnected = true;
