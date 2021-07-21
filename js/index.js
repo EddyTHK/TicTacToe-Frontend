@@ -4,7 +4,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Query DOM
     var createSessionButton = document.getElementById("createSession");
     var joinSessionButton = document.getElementById("joinSession");
-    var usernameInput;
 
     // declare connection
     const socket = io.connect('https://ades-ca3-backend.herokuapp.com');
@@ -13,7 +12,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     createSessionButton.addEventListener('click', function () {
 
         // retrieve and save username
-        usernameInput = document.getElementById("username");
+        var usernameInput = document.getElementById("username");
         var playerName = usernameInput.value;
 
         if (playerName != "") {
@@ -74,6 +73,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     joinSessionButton.addEventListener('click', function () {
+        var playerName = usernameInput.value;
+        
         // Change design when "Join Game" button is clicked
         document.getElementById("lobby").innerHTML = `
             <div class='centered container mx-auto'>
