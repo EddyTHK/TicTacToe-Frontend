@@ -20,21 +20,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
             socket.on('connect', function () {
                 socketConnected = true;
                 console.log('Connected! ID: ' + socket.id);
-            });
 
-            // sends username back to server
-            socket.emit("createSess", playerName);
+                // sends username back to server
+                socket.emit("createSess", playerName);
 
-            socket.on("session-created", function (data) {
-                var p1_id = data.id;
-                var p1_name = data.name;
-                console.log("Player 1 id: " + p1_id);
-                console.log("Player 1 name: " + p1_name);
+                socket.on("session-created", function (data) {
+                    var p1_id = data.id;
+                    var p1_name = data.name;
+                    console.log("Player 1 id: " + p1_id);
+                    console.log("Player 1 name: " + p1_name);
 
-                document.getElementById("lobby").innerHTML =
+                    document.getElementById("lobby").innerHTML =
 
-                    // Displays loading page when username is entered and createSessionButton is clicked
-                    `
+                        // Displays loading page when username is entered and createSessionButton is clicked
+                        `
                     <div class="container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                         <div class="row">
                             <div class="col-sm-12 d-flex justify-content-center">
@@ -60,11 +59,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     </div>
                 `;
 
-                var close = document.getElementById("close");
+                    var close = document.getElementById("close");
 
-                close.addEventListener('click', function () {
-                    //revert back to main page when cancel button is clicked
-                    location.reload();
+                    close.addEventListener('click', function () {
+                        //revert back to main page when cancel button is clicked
+                        location.reload();
+                    });
                 });
             });
         } else {
@@ -100,21 +100,21 @@ window.addEventListener('DOMContentLoaded', (event) => {
         var join = document.getElementById("join");
         var sessCode = document.getElementById("session");
 
-        join.addEventListener('click', function() {
-        // pass session code and name back to server
-            if(playerName != '') {
-                socket.emit("join-session",{
+        join.addEventListener('click', function () {
+            // pass session code and name back to server
+            if (playerName != '') {
+                socket.emit("join-session", {
                     id: sessCode,
                     name: playerName
                 });
 
-                socket.on("GameStart", function() {
+                socket.on("GameStart", function () {
                     alert("Player 1 and 2 connected!");
-                    
+
                     location.replace("game.html");
                 });
-                
-            }else { 
+
+            } else {
                 alert("Please enter a valid sessionID!");
             }
         });
