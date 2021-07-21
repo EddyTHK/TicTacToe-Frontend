@@ -1,12 +1,13 @@
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM Loaded!");
+    const io = require("socket.io-client");
 
     // Query DOM
     var createSessionButton = document.getElementById("createSession");
     var joinSessionButton = document.getElementById("joinSession");
 
     // declare connection
-    var socket = io.connect('https://ades-ca3-backend.herokuapp.com');
+    var socket = io.connect('https://ades-ca3-backend.herokuapp.com/');
     var socketConnected = false;
 
     createSessionButton.addEventListener('click', function () {
