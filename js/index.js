@@ -73,6 +73,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     joinSessionButton.addEventListener('click', function () {
+        // retrieve and save username
+        var usernameInput = document.getElementById("username");
         var playerName = usernameInput.value;
 
         // Change design when "Join Game" button is clicked
