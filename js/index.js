@@ -102,14 +102,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
         `;
 
         var join = document.getElementById("join");
-        var sessCode = document.getElementById("session").value;
+        var sessCode = document.getElementById("session");
 
         join.addEventListener('click', function () {
+            // Store value of session id
+            var lobbyCode = sessCode.value;
 
-            // pass session code and name back to server
+            // pass session id and name back to server
             if (playerName != '') {
                 socket.emit("join-session", {
-                    id: sessCode,
+                    id: lobbyCode,
                     name: playerName
                 });
 
