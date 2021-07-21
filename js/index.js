@@ -9,9 +9,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
         // retrieve and save username
         var usernameInput = document.getElementById("username");
-        var player1 = usernameInput.value;
+        var playerName = usernameInput.value;
 
-        if (player1 != "") {
+        if (playerName != "") {
             // declare connection
             var socket = io.connect('https://ades-ca3-backend.herokuapp.com');
             var socketConnected = false;
@@ -23,11 +23,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
             });
 
             // sends username back to server
-            socket.emit("createSess", player1);
+            socket.emit("createSess", playerName);
 
             socket.on("session-created", function (data) {
-                var data = data;
-                console.log("Player 1 id: " + data.id);
+                var res = data;
+                console.log("Player 1 id: " + res.id);
 
                 document.getElementById("lobby").innerHTML =
 
@@ -71,7 +71,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     joinSessionButton.addEventListener('click', function () {
-        // Display when "Join Game" button is clicked
+        // Change design when "Join Game" button is clicked
         document.getElementById("lobby").innerHTML = `
             <div class='centered container mx-auto'>
                 <div class="row">
@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         <form onsubmit="return false">
                             <div class="form-group">
                                 <label for="session">Enter sessionID: </label>
-                                <input id="session" class="form-control" type="text" name="session" placeholder="session ID">
+                                <input id="session" class="form-control" type="text" name="session" placeholder="session ID" required>
                             </div>
 
                             <div class="d-flex justify-content-center">
@@ -96,10 +96,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
         `;
 
         var join = document.getElementById("join");
+        var sessCode = document.getElementById("session");
 
-        // join.addEventListener('click', function() {
-        //         socket.emit("join-session",code,name);
-        // });
+        join.addEventListener('click', function() {
+        // pass session code and name back to server
+            if(playerName != '') {
+                socket.emit("join-session",{
+                    id: sessCode,
+                    name: playerName
+                });
+            }else { 
+                alert("Please enter a valid sessionID!");
+            }
+        });
 
         var close = document.getElementById("close");
 
