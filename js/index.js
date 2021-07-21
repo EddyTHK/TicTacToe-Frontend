@@ -107,6 +107,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     id: sessCode,
                     name: playerName
                 });
+
+                socket.on("GameStart", function() {
+                    alert("Player 1 and 2 connected!");
+                    
+                    location.replace("game.html");
+                });
+                
             }else { 
                 alert("Please enter a valid sessionID!");
             }
