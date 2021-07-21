@@ -74,7 +74,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     joinSessionButton.addEventListener('click', function () {
         var playerName = usernameInput.value;
-        
+
         // Change design when "Join Game" button is clicked
         document.getElementById("lobby").innerHTML = `
             <div class='centered container mx-auto'>
