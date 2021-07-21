@@ -76,6 +76,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         // retrieve and save username
         var usernameInput = document.getElementById("username");
         var playerName = usernameInput.value;
+        console.log(playerName);
 
         // Change design when "Join Game" button is clicked
         document.getElementById("lobby").innerHTML = `
