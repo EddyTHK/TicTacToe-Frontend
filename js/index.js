@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var joinSessionButton = document.getElementById("joinSession");
 
     // declare connection
-    var socket = io.connect();
+    var socket = io.connect('https://ades-ca3-backend.herokuapp.com');
     var socketConnected = false;
 
     createSessionButton.addEventListener('click', function () {
@@ -20,51 +20,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
             socket.on('connect', function () {
                 socketConnected = true;
                 console.log('Connected! ID: ' + socket.id);
+            });
 
-                // sends username back to server
-                socket.emit("createSess", playerName);
+            // sends username back to server
+            socket.emit("createSess", playerName);
 
-                socket.on("session-created", function (data) {
-                    var p1_id = data.id;
-                    var p1_name = data.name;
-                    console.log("Player 1 id: " + p1_id);
-                    console.log("Player 1 name: " + p1_name);
+            socket.on("session-created", function (data) {
+                var p1_id = data.id;
+                var p1_name = data.name;
+                console.log("Player 1 id: " + p1_id);
+                console.log("Player 1 name: " + p1_name);
 
-                    document.getElementById("lobby").innerHTML =
+                document.getElementById("lobby").innerHTML =
 
-                        // Displays loading page when username is entered and createSessionButton is clicked
-                        `
-                    <div class="container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                        <div class="row">
-                            <div class="col-sm-12 d-flex justify-content-center">
-                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <br>
-                                <p class="d-flex justify-content-center">Waiting for player 2 to join....</p>
-        
-                                <p class="d-flex justify-content-center" id="sessTxt">Your ID is: ${data.id}</p>
-        
-                                <div class="text-center pt-4">
-                                    <button id='close' class="btn btn-secondary">Cancel</button>
-                                </div>
+                    // Displays loading page when username is entered and createSessionButton is clicked
+                    `
+                <div class="container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <div class="row">
+                        <div class="col-sm-12 d-flex justify-content-center">
+                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span>
                             </div>
                         </div>
                     </div>
-                `;
+    
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <br>
+                            <p class="d-flex justify-content-center">Waiting for player 2 to join....</p>
+    
+                            <p class="d-flex justify-content-center" id="sessTxt">Your ID is: ${data.id}</p>
+    
+                            <div class="text-center pt-4">
+                                <button id='close' class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
-                    var close = document.getElementById("close");
+                var close = document.getElementById("close");
 
-                    close.addEventListener('click', function () {
-                        //revert back to main page when cancel button is clicked
-                        location.reload();
-                    });
+                close.addEventListener('click', function () {
+                    //revert back to main page when cancel button is clicked
+                    location.reload();
                 });
             });
         } else {
