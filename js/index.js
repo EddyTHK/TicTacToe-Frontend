@@ -1,8 +1,5 @@
-const io = require("socket.io-client");
-
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM Loaded!");
-
 
     // Query DOM
     var createSessionButton = document.getElementById("createSession");
