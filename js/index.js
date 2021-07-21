@@ -102,12 +102,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
         `;
 
         var join = document.getElementById("join");
-        var sessCode = document.getElementById("session");
+        var sessCode = document.getElementById("session").value;
 
         join.addEventListener('click', function () {
+
             // pass session code and name back to server
             if (playerName != '') {
-                console.log("player2 Name: " + playerName);
                 socket.emit("join-session", {
                     id: sessCode,
                     name: playerName
