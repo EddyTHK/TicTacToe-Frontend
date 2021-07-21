@@ -1,0 +1,17 @@
+/* Classes */
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title{
+    padding-bottom: .6em;
+}
+
+/* id */
+#text {
+    padding-bottom: 2em;
+    text-align: center;
+}
