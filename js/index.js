@@ -5,12 +5,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var createSessionButton = document.getElementById("createSession");
     var joinSessionButton = document.getElementById("joinSession");
 
-    // declare connection
-    try {
-        const socket = io.connect('https://ades-ca3-backend.herokuapp.com');
-    }catch(e) {
-        const socket = io.connect('https://localhost:4000');
-    }
+    // declare connection 
+    // change to const socket = io.connect('https://ades-ca3-backend.herokuapp.com');
+    // after debugging
+
+    const socket = io.connect('http://localhost:4000');
     var socketConnected = false;
 
     createSessionButton.addEventListener('click', function () {
