@@ -37,30 +37,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     // Displays loading page when username is entered and createSessionButton is clicked
                     `
-                <div class="container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                    <div class="row">
-                        <div class="col-sm-12 d-flex justify-content-center">
-                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                <span class="sr-only">Loading...</span>
+                        <div class="container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            <div class="row">
+                                <div class="col-sm-12 d-flex justify-content-center">
+                                    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <br>
+                                    <p class="d-flex justify-content-center">Waiting for player 2 to join....</p>
+            
+                                    <p class="d-flex justify-content-center" id="sessTxt">Your ID is: ${data.id}</p>
+            
+                                    <div class="text-center pt-4">
+                                        <button id='close' class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-    
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                            <br>
-                            <p class="d-flex justify-content-center">Waiting for player 2 to join....</p>
-    
-                            <p class="d-flex justify-content-center" id="sessTxt">Your ID is: ${data.id}</p>
-    
-                            <div class="text-center pt-4">
-                                <button id='close' class="btn btn-secondary">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+                    `;
 
                 var close = document.getElementById("close");
 
