@@ -11,6 +11,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const socket = io.connect('http://localhost:4000');
     var socketConnected = false;
 
+    // function to be run when session id is matching
+    function displayGame() {
+        alert("Player 1 and 2 connected!");
+
+        document.getElementById('lobby').innerHTML = `                
+            <div class="board circle" id="board">
+                <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                </div>
+                <div class="winning-message">
+                    <div data-winning-message-text>X wins!</div>
+                    <button id="restartBtn">Restart</button>
+                </div>
+            `;
+
+        socket.on("errorInJoining", function () {
+            alert("Invalid session id!");
+        });
+
+        socket.on("user-disconnected", function () {
+            alert("The other player disconnected");
+        });
+    }
+
     createSessionButton.addEventListener('click', function () {
 
         // retrieve and save username
@@ -69,35 +100,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     location.reload();
                 });
             });
-
-            socket.on("GameStart", function () {
-                alert("Player 1 and 2 connected!");
-    
-                document.getElementById('lobby').innerHTML = `                
-                    <div class="board circle" id="board">
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                        <div class="cell" datacell></div>
-                    </div>
-                    <div class="winning-message">
-                        <div data-winning-message-text>X wins!</div>
-                        <button id="restartBtn">Restart</button>
-                    </div>
-                `;
-            });
-    
-            socket.on("errorInJoining", function() {
-                alert("Invalid session id!");
-            });
-            
         } else {
             alert("Please enter a username!");
+        }
+    });
+
+    socket.on("game", function (data) {
+        console.log(data.join);
+        if (data.join == true) {
+            displayGame();
+        }else {
+            alert("failed");
         }
     });
 
@@ -143,32 +156,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     id: lobbyCode,
                     name: playerName
                 });
-                
-                socket.on("GameStart", function () {
-                    alert("Player 1 and 2 connected!");
-        
-                    document.getElementById('lobby').innerHTML = `                
-                        <div class="board circle" id="board">
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                        </div>
-                        <div class="winning-message">
-                            <div data-winning-message-text>X wins!</div>
-                            <button id="restartBtn">Restart</button>
-                        </div>
-                    `;
+
+                socket.on("joined", function () {
+                    socket.emit("gameStart");
+
+                    displayGame();
                 });
-        
-                socket.on("errorInJoining", function() {
-                    alert("Invalid session id!");
-                });
+
             }
         });
 
