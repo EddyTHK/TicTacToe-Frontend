@@ -121,8 +121,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     location.replace("game.html");
                 });
 
-            } else {
-                alert("Please enter a valid sessionID!");
+                socket.on("errorInJoining", function() {
+                    alert("Invalid session id!");
+                });
             }
         });
 
