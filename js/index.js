@@ -11,6 +11,37 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const socket = io.connect('http://localhost:4000');
     var socketConnected = false;
 
+    function gameStart () {
+        socket.on("GameStart", function () {
+            alert("Player 1 and 2 connected!");
+
+            document.getElementById('lobby').innerHTML = `
+                <!-- Stylesheet -->
+                <link rel="stylesheet" href="styles/game.css">
+        
+                <div class="board circle" id="board">
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                    <div class="cell" datacell></div>
+                </div>
+                <div class="winning-message">
+                    <div data-winning-message-text>X wins!</div>
+                    <button id="restartBtn">Restart</button>
+                </div>
+            `;
+        });
+
+        socket.on("errorInJoining", function() {
+            alert("Invalid session id!");
+        });
+    }
+
     createSessionButton.addEventListener('click', function () {
 
         // retrieve and save username
@@ -68,6 +99,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //revert back to main page when cancel button is clicked
                     location.reload();
                 });
+
+                gameStart();
             });
         } else {
             alert("Please enter a username!");
@@ -116,35 +149,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     id: lobbyCode,
                     name: playerName
                 });
-
-                socket.on("GameStart", function () {
-                    alert("Player 1 and 2 connected!");
-
-                    document.getElementById('lobby').innerHTML = `
-                        <!-- Stylesheet -->
-                        <link rel="stylesheet" href="styles/game.css">
-                
-                        <div class="board circle" id="board">
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                            <div class="cell" datacell></div>
-                        </div>
-                        <div class="winning-message">
-                            <div data-winning-message-text>X wins!</div>
-                            <button id="restartBtn">Restart</button>
-                        </div>
-                    `;
-                });
-
-                socket.on("errorInJoining", function() {
-                    alert("Invalid session id!");
-                });
+                gameStart();
             }
         });
 
