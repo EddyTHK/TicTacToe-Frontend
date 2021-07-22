@@ -99,9 +99,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     //revert back to main page when cancel button is clicked
                     location.reload();
                 });
-
-                gameStart();
             });
+
+            gameStart();
         } else {
             alert("Please enter a username!");
         }
