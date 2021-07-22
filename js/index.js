@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var joinSessionButton = document.getElementById("joinSession");
 
     // declare connection 
-    // change to const socket = io.connect('https://ades-ca3-backend.herokuapp.com');
+    // TODO: change to const socket = io.connect('https://ades-ca3-backend.herokuapp.com');
     // after debugging
 
     const socket = io.connect('http://localhost:4000');
