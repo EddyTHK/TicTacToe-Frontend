@@ -120,7 +120,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 socket.on("GameStart", function () {
                     alert("Player 1 and 2 connected!");
 
-                    location.replace("game.html");
+                    document.getElementById('lobby').innerHTML = `
+                        <!-- Stylesheet -->
+                        <link rel="stylesheet" href="styles/game.css">
+                
+                        <div class="board circle" id="board">
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                            <div class="cell" datacell></div>
+                        </div>
+                        <div class="winning-message">
+                            <div data-winning-message-text>X wins!</div>
+                            <button id="restartBtn">Restart</button>
+                        </div>
+                    `;
                 });
 
                 socket.on("errorInJoining", function() {
