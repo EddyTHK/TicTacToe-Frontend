@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // declare connection 
     // TODO: change to const socket = io.connect('https://ades-ca3-backend.herokuapp.com'); before deploying
 
-    var socket = io.connect('http://localhost:4000');
+    var socket = io.connect('https://ades-ca3-backend.herokuapp.com');
     var socketConnected = false;
 
     // variables for game logic
