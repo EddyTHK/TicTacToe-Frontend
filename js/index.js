@@ -236,13 +236,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             const continueButton = document.getElementById('continueButton');
             const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
             var xTurn;
-
-            startGame();
             // continueButton.addEventListener('click', restartGame);
 
+            startGame();
+
             function startGame() {
-                console.log(player.getPlayerName());
                 xTurn = player.getTurn();
+                console.log(player.getPlayerName());
                 console.log(xTurn);
 
                 if (!xTurn) {
@@ -250,10 +250,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 } else {
                     for (var i = 0; i < cellElements.length; i++) {
                         cellElements[i].addEventListener('click', handleClick, { once: true });
-                        if (xTurn == false) {
-                            console.log(xTurn);
-                            break;
-                        }
                     }
 
                     function handleClick(e) {
@@ -264,7 +260,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         const currentClass = xTurn ? X_CLASS : CIRCLE_CLASS;
                         console.log(currentClass);
                         cell.classList.add(currentClass);
-                        board.classList.add('disabled');
 
                         socket.emit("updated", {
                             tile: tileClicked,
@@ -272,7 +267,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         });
 
                         player.swapTurn();
+                        xTurn = player.getTurn();
+
                         console.log(xTurn);
+                        board.classList.add('disabled');
 
                         if (checkWin(currentClass)) {
                             endGame(false);
@@ -281,18 +279,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         }
                     }
                 }
+
+                socket.on('swap', function (data) {
+                    var cellID = data.tile;
+                    console.log(data.type);
+                    var updatedTile = document.getElementById(cellID);
+    
+                    updatedTile.classList.add(data.type);
+                    player.swapTurn();
+                    xTurn = player.getTurn();
+                    console.log(xTurn);
+
+                    board.classList.remove("disabled");
+                    startGame();
+                });
             }
-
-            socket.on('swap', function (data) {
-                var cellID = data.tile;
-                console.log(data.type);
-                var updatedTile = document.getElementById(cellID);
-
-                updatedTile.classList.add(data.type);
-                board.classList.remove("disabled");
-                xTurn = player.swapTurn();
-                startGame();
-            });
+            
 
             function checkWin(currentClass) {
                 return winningCombos.some(combination => {
