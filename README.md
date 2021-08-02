@@ -1,4 +1,4 @@
 # ADES-CA3-website
 
-Front end is hosted using [Netlify](https://ades-tic-tac-toe.netlify.app/).
+Front end is hosted with [Netlify](https://ades-tic-tac-toe.netlify.app/).
 

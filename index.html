@@ -11,15 +11,17 @@
 	<!-- Stylesheet -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<link rel="stylesheet" href="styles/game.css">
-	<link rel="stylesheet" type="text/css" href="styles/index.css">
+
+	<link rel="stylesheet" href="./styles/game.css">
 	<!-- jQuery library -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+
+	<script type="text/javascript" src="js/index.js"></script>
 </head>
 
 <body id="lobby"></body>
@@ -32,9 +34,9 @@
 
 	<div class='row'>
 		<div class="col-sm-12">
-			<div id="text" class="mx-auto">
-				<b>Welcome to my Tic Tac Toe Game!<br></b>
-				<p>Enter a username and click on the "Start Game" button to start a game
+			<div id="text" class="mx-auto text-center">
+				<b>Multiplayer Tic Tac Toe Game<br></b>
+				<p>click on the "Start Game" button to create a session
 					<br> or the "Join Game" button to join an existing lobby.
 				</p>
 			</div>
@@ -62,9 +64,6 @@
 		</div>
 	</div>
 </div>
-
-<!-- External Scripts -->
-<script type="text/javascript" src="js/index.js"></script>
 </body>
 
 </html>
