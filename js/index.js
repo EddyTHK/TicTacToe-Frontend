@@ -201,7 +201,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     class Game {
         constructor(roomID) {
             this.roomID = roomID;
-            this.moves = 0;
         }
 
         getRoomID = () => {
@@ -226,30 +225,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 </div>
                 <div class="winning-message" id="winningMessage">
                     <div data-winning-message-text></div>
-                    <button id="continueButton">Continue</button>
+                    <button id="exitButton">Exit</button>
                 </div>
             `;
 
             const cellElements = document.querySelectorAll('[data-cell]');
             const board = document.getElementById('board');
             const winningMessageElement = document.getElementById('winningMessage');
-            const continueButton = document.getElementById('continueButton');
+            const exitButton = document.getElementById('exitButton');
             const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
-            var xTurn;
-            // continueButton.addEventListener('click', restartGame);
 
-            startGame();
+            var xTurn = player.getTurn();
+            var playerType = player.getPlayerType();
+            exitButton.addEventListener('click', exitGame);
 
-            function startGame() {
-                xTurn = player.getTurn();
-                console.log(player.getPlayerName());
-                console.log(xTurn);
+            startGame(xTurn, playerType);
 
-                if (!xTurn) {
-                    board.classList.add('disabled');
+            console.log(player.getPlayerName());
+            console.log(xTurn, playerType);
+
+            function startGame(xTurn, playerType) {
+                if (xTurn == false && playerType == 'circle') {
+                    board.disabled = true;
                 } else {
                     for (var i = 0; i < cellElements.length; i++) {
                         cellElements[i].addEventListener('click', handleClick, { once: true });
+                    }
+
+                    function current(playerType) {
+                        if (playerType == "x") {
+                            return X_CLASS;
+                        } else if (playerType == "circle") {
+                            return CIRCLE_CLASS;
+                        }
                     }
 
                     function handleClick(e) {
@@ -257,7 +265,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         var tileClicked = cell.id;
                         console.log("tileClicked id", tileClicked);
 
-                        const currentClass = xTurn ? X_CLASS : CIRCLE_CLASS;
+                        const currentClass = current(player.getPlayerType());
+
                         console.log(currentClass);
                         cell.classList.add(currentClass);
 
@@ -269,8 +278,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
                         player.swapTurn();
                         xTurn = player.getTurn();
 
+                        for (var i = 0; i < cellElements.length; i++) {
+                            cellElements[i].removeEventListener('click', handleClick, { once: true });
+                        }
                         console.log(xTurn);
-                        board.classList.add('disabled');
+
 
                         if (checkWin(currentClass)) {
                             endGame(false);
@@ -278,23 +290,39 @@ window.addEventListener('DOMContentLoaded', (event) => {
                             endGame(true);
                         }
                     }
+                    socket.on("end", function () {
+                        console.log('draw');
+                        winningMessageElement.classList.add('show');
+                        winningMessageTextElement.innerText = 'Draw!'
+                    });
                 }
-
-                socket.on('swap', function (data) {
-                    var cellID = data.tile;
-                    console.log(data.type);
-                    var updatedTile = document.getElementById(cellID);
-    
-                    updatedTile.classList.add(data.type);
-                    player.swapTurn();
-                    xTurn = player.getTurn();
-                    console.log(xTurn);
-
-                    board.classList.remove("disabled");
-                    startGame();
-                });
             }
-            
+
+            socket.on('swap', function (data) {
+                var cellID = data.tile;
+                console.log(data.type);
+                var updatedTile = document.getElementById(cellID);
+
+                updatedTile.classList.add(data.type);
+
+                player.swapTurn();
+                xTurn = player.getTurn();
+                console.log(player.getPlayerType());
+                startGame(xTurn, player.getPlayerType());
+            });
+
+            socket.on("endDraw", function () {
+                console.log('draw');
+                winningMessageElement.classList.add('show');
+                winningMessageTextElement.innerText = 'Draw!'
+            });
+
+            socket.on('endWin', function (data) {
+                var winnerName = data.winner;
+
+                winningMessageElement.classList.add('show');
+                winningMessageTextElement.innerText = `${winnerName} Wins!`
+            });
 
             function checkWin(currentClass) {
                 return winningCombos.some(combination => {
@@ -306,11 +334,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             function endGame(draw) {
                 if (draw) {
+                    winningMessageElement.classList.add('show');
                     winningMessageTextElement.innerText = 'Draw!'
+                    socket.emit('draw');
                 } else {
-                    winningMessageTextElement.innerText = `${xTurn ? player.getPlayerName : "X's"} Wins!`
+                    winningMessageElement.classList.add('show');
+                    winningMessageTextElement.innerText = `${player.getPlayerName()} Wins!`
+                    socket.emit('win', {
+                        winner: player.getPlayerName()
+                    });
                 }
-                winningMessageElement.classList.add('show');
+
             }
 
             function isDraw() {
@@ -319,16 +353,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 })
             }
 
-            // function restartGame() {
-            //     cellElements.forEach(cell => {
-            //         cell.classList.remove(X_CLASS);
-            //         cell.classList.remove(CIRCLE_CLASS);
-            //         cell.removeEventListener('click', startGame.handleClick);
-            //     })
-            //     winningMessageElement.classList.remove('show');
-
-            //     startGame();
-            // }
+            function exitGame() {
+                socket.emit('exit');
+                document.getElementById('lobby').innerHTML = `<div class='centered container mx-auto'>
+                <div class="row">
+                    <div class='col-sm-12'>
+                        <h2 class="text-center title">Multiplayer Tic Tac Toe</h2>
+                    </div>
+                </div>
+            
+                <div class='row'>
+                    <div class="col-sm-12">
+                        <div id="text" class="mx-auto text-center">
+                            <b>Multiplayer Tic Tac Toe Game<br></b>
+                            <p>click on the "Start Game" button to create a session
+                                <br> or the "Join Game" button to join an existing lobby.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <form onsubmit="return false">
+                            <div class="form-group">
+                                <label for="username" required>Enter a username: </label>
+                                <input id="username" class="form-control" type="text" name="username" placeholder="username"
+                                    required>
+                            </div>
+            
+                            <div class="d-flex justify-content-center mb-3">
+                                <button id='createSession' class='btn btn-outline-primary text-center btn-block'>Start Game</button>
+                            </div>
+            
+                            <div class="d-flex justify-content-center">
+                                <button id='joinSession' class='btn btn-outline-primary text-center btn-block'>Join Game</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>`
+            }
 
             socket.on("user-disconnected", function () {
                 alert("The other player disconnected");
