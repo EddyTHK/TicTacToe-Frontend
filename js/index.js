@@ -355,45 +355,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             function exitGame() {
                 socket.emit('exit');
-                document.getElementById('lobby').innerHTML = `<div class='centered container mx-auto'>
-                <div class="row">
-                    <div class='col-sm-12'>
-                        <h2 class="text-center title">Multiplayer Tic Tac Toe</h2>
-                    </div>
-                </div>
-            
-                <div class='row'>
-                    <div class="col-sm-12">
-                        <div id="text" class="mx-auto text-center">
-                            <b>Multiplayer Tic Tac Toe Game<br></b>
-                            <p>click on the "Start Game" button to create a session
-                                <br> or the "Join Game" button to join an existing lobby.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="row">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-4">
-                        <form onsubmit="return false">
-                            <div class="form-group">
-                                <label for="username" required>Enter a username: </label>
-                                <input id="username" class="form-control" type="text" name="username" placeholder="username"
-                                    required>
-                            </div>
-            
-                            <div class="d-flex justify-content-center mb-3">
-                                <button id='createSession' class='btn btn-outline-primary text-center btn-block'>Start Game</button>
-                            </div>
-            
-                            <div class="d-flex justify-content-center">
-                                <button id='joinSession' class='btn btn-outline-primary text-center btn-block'>Join Game</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>`
+                window.location.reload();
             }
 
             socket.on("user-disconnected", function () {
